@@ -1,0 +1,47 @@
+---
+title: ' simple linear regression football_salaries'
+output:
+  word_document: default
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+
+```{r cars}
+plot(Salary_Data$YearsExperience,Salary_Data$Salary,xlab = "YearsExperience",ylab="salary")
+
+```
+
+
+
+```{r pressure, echo=FALSE}
+modele=lm(Salary ~YearsExperience,data = data)
+coeff=modele$coefficients
+plot(data$YearsExperience,data$Salary,xlab = "YearsExperience",ylab="salary")
+lines(data$YearsExperience,data$YearsExperience *coeff[2]+coeff[1],col="green")
+```
+
+
+```{r}
+summary(modele)
+print(" On rejette l'hypothèse que l'un des coeff est nul ")
+```
+```{r}
+
+x = seq(0,20,0.01)
+intC = predict(modele, newdata=list(YearsExperience=x), interval="confidence")
+intP = predict(modele, newdata=list(YearsExperience=x), interval="prediction")
+plot(data$YearsExperience,data$Salary,xlab = "YearsExperience",ylab="salary")
+abline(coeff[1], coeff[2], col="blue")
+lines(x, intC[, 2], col="red")
+lines(x, intC[, 3], col="red")
+lines(x, intP[, 2], col="green")
+lines(x, intP[, 3], col="green")
+```
+
